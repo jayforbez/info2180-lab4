@@ -7,13 +7,28 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Avengers Character Search</h1>
-    </header>
+    <div class="container">
+        <header>
+            <h1>AVENGERS CHARACTER SEARCH</h1>
+        </header>
 
-    <main>
-        <button id="search-btn">Search</button>
-    </main>
+        <main>
+            <div class="search-section">
+                <label for="search-input">Search by Full Name or Alias</label>
+                <div class="input-group">
+                    <input type="text" id="search-input" placeholder="e.g. Captain America or Steve Rogers">
+                    <button id="search-btn">Search</button>
+                </div>
+            </div>
+
+            <h2>RESULT</h2>
+            <hr>
+
+            <div id="result">
+                <!-- Results from superheroes.php will load here -->
+            </div>
+        </main>
+    </div>
 
     <script src="app.js"></script>
 </body>

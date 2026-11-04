@@ -63,10 +63,35 @@ $superheroes = [
   ], 
 ];
 
-?>
+// Sanitize query parameter from GET request
+$query = isset($_GET['query']) ? trim(filter_var($_GET['query'], FILTER_SANITIZE_STRING)) : '';
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+if (empty($query)) {
+    // If query is empty, return whole list as <ul> (Figure 3 requirement)
+    echo "<ul>";
+    foreach ($superheroes as $hero) {
+        echo "<li>" . htmlspecialchars($hero['alias']) . "</li>";
+    }
+    echo "</ul>";
+} else {
+    $foundHero = null;
+
+    // Search through superheroes by alias or full name (case-insensitive)
+    foreach ($superheroes as $hero) {
+        if (strcasecmp($hero['name'], $query) === 0 || strcasecmp($hero['alias'], $query) === 0) {
+            $foundHero = $hero;
+            break;
+        }
+    }
+
+    if ($foundHero) {
+        // Required format: <h3> Alias </h3>, <h4> A.K.A Name </h4>, <p> Biography </p>
+        echo "<h3>" . htmlspecialchars($foundHero['alias']) . "</h3>";
+        echo "<h4>A.K.A " . htmlspecialchars($foundHero['name']) . "</h4>";
+        echo "<p>" . htmlspecialchars($foundHero['biography']) . "</p>";
+    } else {
+        // Display "SUPERHERO NOT FOUND" message if search produces no matches (Figure 5)
+        echo "<p class='not-found'>SUPERHERO NOT FOUND</p>";
+    }
+}
+?>
